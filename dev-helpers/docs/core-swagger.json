@@ -1,0 +1,3704 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is the full API of the GATACA Core Library.\nThis API contains common models, data and information to be used by GATACA Components.",
+        "title": "GATACA Core API",
+        "contact": {
+            "name": "GATACA",
+            "url": "https://gataca.io",
+            "email": "it@gataca.io"
+        },
+        "version": "1.0"
+    },
+    "host": "connect.gataca.io:9090",
+    "paths": {
+        "/admin/v1/api_keys": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Retrieve all the loggable entities (Admin ApiKeys and Applications) that can be managed by the logged in Administrator.\nThis API is not necessary for integration. ApiKeys can be managed through Gataca Admin Portal.\nQuery params allowed: did, ssiConfig.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Api-Keys"
+                ],
+                "summary": "Get all the managed Admin ApiKeys and Applications. This endpoint is paginated and has filters.",
+                "responses": {
+                    "200": {
+                        "description": "List of api_keys managed by the requester.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ApiKey"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create a new ApiKey using a previously obtained registration token.\nThis API is not necessary for integration. ApiKeys can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Api-Keys"
+                ],
+                "summary": "Sign Up a new ApiKey.",
+                "parameters": [
+                    {
+                        "description": "ApiKey",
+                        "name": "apiKey",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiKey"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Admin apiKeys correctly created.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "Access token for the new created apiKey"
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid apiKey data.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid registration token",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/api_keys/login": {
+            "post": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Login for aplications using an API_KEY with Basic Auth",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Basic Admin Login with Api_Key_id:Api_Key",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SSI Config to login",
+                        "name": "tenant",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login Succesful",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "ApiKey Token"
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid credentials",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/api_keys/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Update the data of a given Admin apiKey or Application to change his login, roles or tenants.\nThis API is not necessary for integration. ApiKeys can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Api-Keys"
+                ],
+                "summary": "Update an Admin ApiKey or an Application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ApiKey Id",
+                        "name": "apiKeyID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "ApiKey Data",
+                        "name": "newApiKeyData",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiKey"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ApiKey updated",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid apiKey data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to update that apiKey",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Delete all the data of a given Admin apiKey or Application making him unable to login again.\nThis API is not necessary for integration. ApiKeys can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Api-Keys"
+                ],
+                "summary": "Delete an Admin ApiKey or an Application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ApiKey Id",
+                        "name": "apiKeyID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ApiKey deleted",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid apiKey data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized to delete that ApiKey or Application",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/api_keys/{id}/password": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Update the password of the logged ApiKey (if his an admin) by proving the knowledge of the existent one, or change the password of any managed application by an Administrator.\nThis API is not necessary for integration. ApiKeys can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Api-Keys"
+                ],
+                "summary": "Update the password of an Admin ApiKey or Application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ApiKey Id",
+                        "name": "apiKeyID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password updated",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid apiKey data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to manage that apiKey",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/keys": {
+            "get": {
+                "description": "Retrieve the JSON representation of all the keys that can be used for signing the tokens issued by the component",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Retrieve all present Json Web Keys",
+                "responses": {
+                    "200": {
+                        "description": "All Json Web Keys",
+                        "schema": {
+                            "$ref": "#/definitions/models.JWKeySet"
+                        }
+                    },
+                    "404": {
+                        "description": "No keys found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error retrieving the keys. Possible misconfiguration.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/keys/{keyid}": {
+            "get": {
+                "description": "Retrieve the JSON representation of all the keys that can be used for signing the tokens issued by the component",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Retrieve all present Json Web Keys",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWK Id",
+                        "name": "keyid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "DID Configuration Modified",
+                        "schema": {}
+                    },
+                    "404": {
+                        "description": "Non existing Keyid",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error retrieving the Key. Possible missconfiguration",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/login/basic": {
+            "post": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Login for aplications using an API_KEY with Basic Auth",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Basic Admin Login with Api_Key_id:Api_Key",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SSI Config to login",
+                        "name": "tenant",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login Succesful",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "ApiKey Token"
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid credentials",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/login/gataca": {
+            "post": {
+                "description": "Validate the second step of the Gataca login process and obtain a valid access Token\nThis API is not necessary for integration. Access can be managed on the Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Finish the GatacaLogin process",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session Id",
+                        "name": "session_id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Session Id",
+                        "name": "connect_token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User Tenant to Login",
+                        "name": "tenant",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Authentication succesfull for this user",
+                        "schema": {
+                            "$ref": "#/definitions/controller.GatacaLoginResponse"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "Admin Access Token"
+                            },
+                            "Token_Type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "428": {
+                        "description": "Authentication still in process.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/login/request": {
+            "get": {
+                "description": "Admin Users can access using GATACA Login. That login process is performed in two-steps, where you have first to request a login session and then validate it.\nThis API is not necessary for integration. Access can be managed on the Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Start a new GatacaLogin process",
+                "responses": {
+                    "200": {
+                        "description": "Requested Session generated",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        },
+                        "headers": {
+                            "connect_token": {
+                                "type": "string",
+                                "description": "Ciphered connect Token"
+                            },
+                            "session_id": {
+                                "type": "string",
+                                "description": "Session Id"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/providers": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "This API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tenants"
+                ],
+                "summary": "Retrieve the list of all existing providers",
+                "responses": {
+                    "200": {
+                        "description": "Names of all the providers",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or non-existing providers.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized to obtain the tenanst.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid or non-existing providers.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/roles": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Recover all the roles in the tenant.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get all custom roles in tenant.",
+                "responses": {
+                    "200": {
+                        "description": "Role for the tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid role data.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid registration token",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Check if a role with the same id already exist, if not created it.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Register a new custom role.",
+                "parameters": [
+                    {
+                        "description": "Role",
+                        "name": "role",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Role"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Custom role correctly created.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid role data.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid registration token",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/roles/:id": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Check if a role with the same id exist.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get a new custom role.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Role ID",
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Role for the Id.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid role data.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid registration token",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Check if a role with the same id already exist and updates it.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Update an existing custom role.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Role Id",
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Role",
+                        "name": "role",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Role"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Custom role correctly updated.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid role data.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid registration token",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Check if a role exists, and delete it.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Delete a custom role.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Role ID",
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Custom role correctly deleted.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid role data.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid registration token",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/roles/scopes": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Recover all the valid scopes for the current user requesting it.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get all valid scopes.",
+                "responses": {
+                    "200": {
+                        "description": "Scopes for the user.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid role data.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid registration token",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/setup": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Retrieve all the current configurations\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Get all the current setups. This endpoints allows pagination.",
+                "responses": {
+                    "200": {
+                        "description": "Current configurations.",
+                        "schema": {
+                            "$ref": "#/definitions/controller.SetupResponse"
+                        }
+                    },
+                    "206": {
+                        "description": "VM Configurations only.",
+                        "schema": {
+                            "$ref": "#/definitions/controller.SetupResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error checking the application. Possible misconfiguration.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "503": {
+                        "description": "Application not initialized.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Modify the current setup of the application.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Update the current Setup",
+                "parameters": [
+                    {
+                        "description": "Application Configuration",
+                        "name": "Setup",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SetupRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Generated DID Document",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid configuration",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to manage configurations.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error generating the DID. Possible invalid registration token.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/setup/auto": {
+            "post": {
+                "description": "Create a new Setup with autogenerated keys. Keys will be stored on the database.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.\nOnly tenant and backbone token are mandatory.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Automatically generate a new Setup",
+                "parameters": [
+                    {
+                        "description": "AutoSetupRequest",
+                        "name": "AutoConfig",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.DidRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Registration token for the DID",
+                        "name": "backbone_token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Application Setup automatically",
+                        "schema": {
+                            "$ref": "#/definitions/models.DIDDocument"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid setup request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error generating the DID. Possible invalid registration token.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/setup/did": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create a new DID configuration and register the DID document and the new did will be enrolled with the license + tenant.\nIf the app hasn't been initialized yet, no authentication is required.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Create and register a new DID",
+                "parameters": [
+                    {
+                        "description": "DID Configuration",
+                        "name": "alias",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Registration token for the DID",
+                        "name": "backbone_token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Generated DID Document",
+                        "schema": {
+                            "$ref": "#/definitions/models.DIDDocument"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid configuration",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to manage DIDs.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error generating the DID. Possible invalid registration token.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/setup/did/{did}": {
+            "put": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Update a configuration associated to an existing DID. This does not modify the registered DID Document.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Update an existing DID Config",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Config Id",
+                        "name": "did",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "DID Configuration",
+                        "name": "DIDConfig",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.DidConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "DID Configuration Modified",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid configuration",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to manage DIDs.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error generating the DID. Possible invalid registration token.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Delete and revoke an existing DID. This makes the did not reusable anymore.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Remove an existing DID Config",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Config Id",
+                        "name": "did",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "DID Deleted",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid configuration",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to manage DIDs.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error generating the DID. Possible invalid registration token.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/setup/eos/:did": {
+            "post": {
+                "description": "This endpoints allows to set a did as an ebsi eos, or swap the actual value for new one provided on the request.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Swap the did configured as ebsi eos.",
+                "responses": {
+                    "200": {
+                        "description": "Did swapped",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "not found.",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "conflict",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/setup/init": {
+            "post": {
+                "description": "Generate a first setup only if the application has never been initialized before. Configuration can be specifically specified.\nThe specified DID must have been previously created.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Create a first Setup Configuration",
+                "parameters": [
+                    {
+                        "description": "Application Configuration",
+                        "name": "Setup",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SetupRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Application Configured",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid configuration",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Application already initialized: not authorized to reinitialize it",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error generating the DID. Possible invalid registration token.",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/setup/keys": {
+            "get": {
+                "description": "Tool to generate an ED25519 Keypair\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Generate a keypair",
+                "responses": {
+                    "200": {
+                        "description": "PublicKey and SecretKey base58 encoded.",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error generating the keys the application.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/setup/secret": {
+            "get": {
+                "description": "Tool to create a secret for symmetric encryption\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Generate a secret",
+                "responses": {
+                    "200": {
+                        "description": "Secret",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/setup/status": {
+            "get": {
+                "description": "Check if the application has been initialized and is ready to be used.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Setup"
+                ],
+                "summary": "Check the status of the current setup.",
+                "responses": {
+                    "200": {
+                        "description": "Application initialized.",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Application not initialized.",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/tenants": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "This API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tenants"
+                ],
+                "summary": "Retrieve the list of all existing tenants",
+                "responses": {
+                    "200": {
+                        "description": "Names of all the tenants",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or non-existing tenants.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized to obtain the tenanst.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid or non-existing tenants.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create a new tenant with empty data.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tenants"
+                ],
+                "summary": "Create a new tenant.",
+                "parameters": [
+                    {
+                        "description": "New tenant data",
+                        "name": "tenant",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Tenant"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tenant data",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Tenant"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or non-existing tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized to modify the tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid or non-existing tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/tenants/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "This API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tenants"
+                ],
+                "summary": "Retrieve the information of a given tenant",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "tenant Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tenant information",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Tenant"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or non-existing tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized to obtain the tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid or non-existing tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Delete a Tenant and all information related to it.\nThis deletes users, applications, sessions, dids, configurations and all the information related.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tenants"
+                ],
+                "summary": "Remove an existing tenant.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "tenant Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tenant deleted correctly",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ResponseMessage"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or non-existing tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized to modify the tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid or non-existing tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Modify the contents of a given Tenant.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tenants"
+                ],
+                "summary": "Modify a tenant.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "tenant Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "New tenant data",
+                        "name": "tenant",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Tenant"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tenant data updated",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Tenant"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or non-existing tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized to modify the tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid or non-existing tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/users": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Retrieve all the loggable entities (Admin Users and Applications) that can be managed by the logged in Administrator.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all teh managed Admin Users and Applications.",
+                "responses": {
+                    "200": {
+                        "description": "List of users managed by the requester.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.User"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create a new Admin User or an Application using a previously obtained registration token.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Sign Up a new Admin User or Application.",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Admin users correctly created.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "Access token for the new created user"
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user data.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid registration token",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/users/login": {
+            "post": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Login for admin users with Basic Auth\nThis API is not necessary for integration. Access can be managed on the Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Basic Admin Login with User:Password",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Tenant to login",
+                        "name": "tenant",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login Succesful",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "Admin User Token"
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid credentials",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/users/login/switch": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Endpoint to switch the tenant of the current session for the new one provided.\nThis API is not necessary for integration.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Switch tenant for the current user loged.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Tenant to switch",
+                        "name": "tenant",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Switch Succesful",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "Admin User Token"
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid credentials",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/users/register": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "In order to signup a new Admin User or an Application, a token must be first obtained.\nThe token will indicate his roles and tenants, so that the User himself can set up freely the rest of his data upon Registration\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtain a signup token for an Admin User or an Appplication",
+                "parameters": [
+                    {
+                        "description": "Tenant for the new user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Token succesfully generated",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "Registration token for the new user"
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid requested user data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to signup other users",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/users/status": {
+            "get": {
+                "description": "Check if there are registered users in order to create a first one or not.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Check the status of the current Admin Users.",
+                "responses": {
+                    "200": {
+                        "description": "Admin users correctly initialized.",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "No Admin users initialized",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "Registration token to create the first admin User"
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/users/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Update the data of a given Admin user or Application to change his login, roles or tenants.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update an Admin User or an Application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Id",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User Data",
+                        "name": "newUserData",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User updated",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to update that user",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Delete all the data of a given Admin user or Application making him unable to login again.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete an Admin User or an Application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Id",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized to delete that User or Application",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/users/{id}/password": {
+            "put": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Update the password of the logged User (if his an admin) by proving the knowledge of the existent one, or change the password of any managed application by an Administrator.\nThis API is not necessary for integration. Users can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update the password of an Admin User or Application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Id",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password updated",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to manage that user",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/credentials/derive": {
+            "post": {
+                "description": "Derive a credential and its proofs for selective disclosure. This Function is not available yet.\nThis API follows the [VC-HTTP-APIs](https://w3c-ccg.github.io/vc-http-api) standard. It is not necessary for integration, but may be used for interoperability with other providers.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VCAPIs",
+                    "Core",
+                    "Holder"
+                ],
+                "summary": "Derive a credential.",
+                "responses": {
+                    "201": {
+                        "description": "Credential derived successfully.",
+                        "schema": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "501": {
+                        "description": "Not implemented",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/credentials/issue": {
+            "post": {
+                "description": "Sign and issue a new credential received on the body.\nThis API follows the [VC-HTTP-APIs](https://w3c-ccg.github.io/vc-http-api) standard. It is not necessary for integration, but may be used for interoperability with other providers.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VCAPIs",
+                    "Core",
+                    "Issuer"
+                ],
+                "summary": "Sign and issue a new credential.",
+                "responses": {
+                    "201": {
+                        "description": "Credential issued correctly.",
+                        "schema": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/credentials/status": {
+            "post": {
+                "description": "Modify the status of a credential following the [Revocation List 2020](https://w3c-ccg.github.io/vc-status-rl-2020) standard. This is not available yet.\nThis API follows the [VC-HTTP-APIs](https://w3c-ccg.github.io/vc-http-api) standard. It is not necessary for integration, but may be used for interoperability with other providers.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VCAPIs",
+                    "Core",
+                    "Issuer"
+                ],
+                "summary": "Modify the status of a credential.",
+                "responses": {
+                    "200": {
+                        "description": "Credential status updated correctly.",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Credential not found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "501": {
+                        "description": "Not implemented",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/credentials/verify": {
+            "post": {
+                "description": "Verify a single verifiable credential validity.\nThis API follows the [VC-HTTP-APIs](https://w3c-ccg.github.io/vc-http-api) standard. It is not necessary for integration, but may be used for interoperability with other providers.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VCAPIs",
+                    "Core",
+                    "Verifier"
+                ],
+                "summary": "Verify cryptographically a credential.",
+                "responses": {
+                    "200": {
+                        "description": "Credential validated successfully.",
+                        "schema": {
+                            "$ref": "#/definitions/models.VerificationResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/health": {
+            "get": {
+                "description": "For monitoring purposes. Returns 200 if the service is up and running.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Monitoring"
+                ],
+                "summary": "Check the health of the server.",
+                "responses": {
+                    "200": {
+                        "description": "RUNNING",
+                        "schema": {
+                            "$ref": "#/definitions/controller.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/presentations/prove": {
+            "post": {
+                "description": "Verify a single verifiable credential validity.\nThis API follows the [VC-HTTP-APIs](https://w3c-ccg.github.io/vc-http-api) standard. It is not necessary for integration, but may be used for interoperability with other providers.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VCAPIs",
+                    "Core",
+                    "Holder"
+                ],
+                "summary": "Sign a verifiable presentation.",
+                "responses": {
+                    "201": {
+                        "description": "Presentation proved by holder.",
+                        "schema": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/presentations/verify": {
+            "post": {
+                "description": "Verify the validity of a presentation with all its credentials.\nThis API follows the [VC-HTTP-APIs](https://w3c-ccg.github.io/vc-http-api) standard. It is not necessary for integration, but may be used for interoperability with other providers.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VCAPIs",
+                    "Core",
+                    "Verifier"
+                ],
+                "summary": "Verify cryptographically a presentation.",
+                "responses": {
+                    "200": {
+                        "description": "Presentation verified correctly.",
+                        "schema": {
+                            "$ref": "#/definitions/models.VerificationResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or malformed input",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "413": {
+                        "description": "Payload too large",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "429": {
+                        "description": "Rate Limit exceeded",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/qrconfigs": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create a new QR Config and indicate the permissions to update it or delete it",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "QRConfigs"
+                ],
+                "summary": "Create QR Config.",
+                "parameters": [
+                    {
+                        "description": "Config to create",
+                        "name": "config",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.QRConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Created configuration",
+                        "schema": {
+                            "$ref": "#/definitions/models.QRConfig"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to create that config",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Config not existing",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error creating your config",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/qrconfigs/{id}": {
+            "get": {
+                "description": "Retrieve an existing qr config",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "QRConfigs"
+                ],
+                "summary": "Get QR Config",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Config Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Current configuration",
+                        "schema": {
+                            "$ref": "#/definitions/models.QRConfig"
+                        }
+                    },
+                    "404": {
+                        "description": "Config not existing",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error retrieving your config",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Update an existing QR Config.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "QRConfigs"
+                ],
+                "summary": "Update QR Config.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Config Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "New config data",
+                        "name": "config",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.QRConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated configuration",
+                        "schema": {
+                            "$ref": "#/definitions/models.QRConfig"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to create that config",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Config not existing",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error retrieving your config",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Delete an existing QR Config.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "QRConfigs"
+                ],
+                "summary": "Delete QR Config",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Config Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success message",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authorization to create that config",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Config not existing",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error retrieving your config",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/version": {
+            "get": {
+                "description": "For monitoring purposes. Returns the current version of the service",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Monitoring"
+                ],
+                "summary": "Check the current version of the service.",
+                "responses": {
+                    "200": {
+                        "description": "1.0.0",
+                        "schema": {
+                            "$ref": "#/definitions/controller.VersionResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ws/v1/login/gataca": {
+            "post": {
+                "description": "Perform a full login using web sockets",
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Perform a gataca login using websockets",
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "controller.DidRequest": {
+            "type": "object",
+            "properties": {
+                "alias": {
+                    "type": "string"
+                },
+                "omitempty": {
+                    "$ref": "#/definitions/models.VerificationMethodConfig"
+                },
+                "provider": {
+                    "type": "string"
+                },
+                "tenant": {
+                    "type": "string"
+                }
+            }
+        },
+        "controller.GatacaLoginResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "example": "admin@domain.com"
+                }
+            }
+        },
+        "controller.SetupResponse": {
+            "type": "object",
+            "properties": {
+                "connectLoginConfig": {
+                    "$ref": "#/definitions/models.ConnectLoginConfig"
+                },
+                "defaultDid": {
+                    "type": "string",
+                    "example": "did:example:xxxxxxxxxxxxxxx"
+                },
+                "didConfigs": {}
+            }
+        },
+        "controller.StatusResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "Ok"
+                }
+            }
+        },
+        "controller.VersionResponse": {
+            "type": "object",
+            "properties": {
+                "releaseDate": {
+                    "type": "string",
+                    "example": "2021-08-11T11:05:20Z"
+                },
+                "version": {
+                    "type": "string",
+                    "example": "1.0.0"
+                }
+            }
+        },
+        "models.ActorType": {
+            "type": "string",
+            "enum": [
+                "ADMIN_USER",
+                "ADMIN_APP",
+                "ISSUER",
+                "VERIFIER",
+                "VALIDATOR",
+                "HOLDER",
+                "SERVICE_PROVIDER"
+            ],
+            "x-enum-varnames": [
+                "ActorUser",
+                "ActorApp",
+                "ActorIssuer",
+                "ActorVerifier",
+                "ActorValidator",
+                "ActorHolder",
+                "ActorServiceProvider"
+            ]
+        },
+        "models.ApiKey": {
+            "type": "object",
+            "properties": {
+                "alias": {
+                    "type": "string",
+                    "example": "MyAPIKey"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                },
+                "did": {
+                    "type": "string",
+                    "example": "did:gatc:4yu9274yq9gr8yw9423"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "iqZRLv6L071bwXcJaQdj0msi3pflDxaH"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "S3cuR3p4$sW0rD!"
+                },
+                "ssi_operations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "[\"verifications-qr1\"",
+                        " \"issuance-qr2\"]"
+                    ]
+                },
+                "status": {
+                    "type": "string",
+                    "example": "ACTIVE"
+                },
+                "tenant": {
+                    "description": "This should not be necessary, the tenant is managed by context. It's just for info and traceability.",
+                    "type": "string",
+                    "example": "gataca"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                }
+            }
+        },
+        "models.ConnectLoginConfig": {
+            "type": "object",
+            "properties": {
+                "connectClient": {
+                    "type": "string",
+                    "example": "GatacaConnect"
+                },
+                "connectHost": {
+                    "type": "string",
+                    "example": "https://connect.gataca.io"
+                },
+                "connectSecret": {
+                    "type": "string",
+                    "example": "************"
+                },
+                "connectTenant": {
+                    "type": "string",
+                    "example": "Admin"
+                },
+                "secret": {
+                    "description": "For Gataca Login",
+                    "type": "string",
+                    "example": "VZGUJw6eAzRP3APQyyEWPShJ6ex0AI7X"
+                }
+            }
+        },
+        "models.DIDDocument": {
+            "type": "object",
+            "properties": {
+                "@context": {
+                    "$ref": "#/definitions/models.SSIContext"
+                },
+                "assertionMethod": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.VerificationMethod"
+                    }
+                },
+                "authentication": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.VerificationMethod"
+                    }
+                },
+                "capabilityDelegation": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.VerificationMethod"
+                    }
+                },
+                "capabilityInvocation": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.VerificationMethod"
+                    }
+                },
+                "ebsiToken": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "did:example:xxxxxxxxxxxxx"
+                },
+                "keyAgreement": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.VerificationMethod"
+                    }
+                },
+                "proof": {
+                    "$ref": "#/definitions/models.SSIProof"
+                },
+                "publicKey": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.PublicKey"
+                    }
+                },
+                "verificationMethod": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.PublicKey"
+                    }
+                }
+            }
+        },
+        "models.DidConfig": {
+            "type": "object",
+            "properties": {
+                "alias": {
+                    "type": "string",
+                    "example": "Service_X"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                },
+                "default": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "didId": {
+                    "type": "string",
+                    "example": "did:example:xxxxxxxxx"
+                },
+                "isEbsiEOS": {
+                    "type": "boolean"
+                },
+                "ledger": {
+                    "type": "string",
+                    "example": "ETH"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                }
+            }
+        },
+        "models.JWK": {
+            "type": "object",
+            "properties": {
+                "alg": {
+                    "type": "string",
+                    "example": "jwa values: https://www.rfc-editor.org/rfc/rfc7518.html#page-6"
+                },
+                "crv": {
+                    "type": "string"
+                },
+                "d": {
+                    "type": "string"
+                },
+                "dp": {
+                    "type": "string"
+                },
+                "dq": {
+                    "type": "string"
+                },
+                "e": {
+                    "type": "string"
+                },
+                "k": {
+                    "type": "string"
+                },
+                "kid": {
+                    "type": "string"
+                },
+                "kty": {
+                    "type": "string"
+                },
+                "n": {
+                    "type": "string"
+                },
+                "p": {
+                    "type": "string"
+                },
+                "q": {
+                    "type": "string"
+                },
+                "qi": {
+                    "type": "string"
+                },
+                "use": {
+                    "type": "string",
+                    "example": "sig,enc"
+                },
+                "x": {
+                    "type": "string"
+                },
+                "y": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.JWKeySet": {
+            "type": "object",
+            "properties": {
+                "keys": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.JWK"
+                    }
+                }
+            }
+        },
+        "models.Permission": {
+            "type": "object",
+            "properties": {
+                "actor": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.ActorType"
+                        }
+                    ],
+                    "example": "ADMIN_USER"
+                },
+                "api_keys": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "dids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "org": {
+                    "type": "string"
+                },
+                "role": {
+                    "$ref": "#/definitions/models.RoleID"
+                },
+                "scopes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ssi_operations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tenant": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Proof": {
+            "type": "object",
+            "properties": {
+                "@context": {
+                    "$ref": "#/definitions/models.SSIContext"
+                },
+                "cades": {
+                    "type": "string",
+                    "example": "308204c906092a864886f70d010702...266ad9fee3375d8095"
+                },
+                "challenge": {
+                    "type": "string",
+                    "example": "TyYfomXjwPaQoSRzCZk7CxFYR8DwAigt"
+                },
+                "created": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                },
+                "creator": {
+                    "type": "string",
+                    "example": "did:gatc:yyyyyyyyyyyy#keys-1"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "nonce": {
+                    "type": "string",
+                    "example": "TyYfomXjwPaQoSRzCZk7CxFYR8DwAigt"
+                },
+                "proofPurpose": {
+                    "type": "string",
+                    "example": "Authentication"
+                },
+                "proofValue": {
+                    "type": "string",
+                    "example": "bQ5AimlvOv6p5wa9pVlmjWgPMr7j9rKw_yjUL6yHlQNwnKk7HL8VQzIT0Xx"
+                },
+                "signatureValue": {
+                    "type": "string",
+                    "example": "bQ5AimlvOv6p5wa9pVlmjWgPMr7j9rKw_yjUL6yHlQNwnKk7HL8VQzIT0Xx"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "Ed25519Signature2018"
+                },
+                "verificationMethod": {
+                    "type": "string",
+                    "example": "did:gatc:yyyyyyyyyyyy#keys-1"
+                }
+            }
+        },
+        "models.PublicKey": {
+            "type": "object",
+            "properties": {
+                "@context": {
+                    "$ref": "#/definitions/models.SSIContext"
+                },
+                "controller": {
+                    "type": "string",
+                    "example": "did:example:xxxxxxxxxxxxx"
+                },
+                "ethereumAddress": {
+                    "type": "string",
+                    "example": "0x89a932207c485f85226d86f7cd486a89a24fcc12"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "did:example:xxxxxxxxxxxxx#keys-1"
+                },
+                "publicKeyBase58": {
+                    "type": "string",
+                    "example": "2pju8d2E3LWkDJaJpm6BBf73v5DzSRyVNVf3JQwgV7DW"
+                },
+                "publicKeyGpg": {
+                    "type": "string",
+                    "example": "-----BEGIN PGP PUBLIC KEY BLOCK-----\r\nVersion: OpenPGP.js v4.9.0\r\nComment: https://openpgpjs.org\r\n\r\nxjMEXkm5LRYJKwYBBAHaRw8BAQdASmfrjYr7vrjwHNiBsdcImK397Vc3t4BL\r\nE8rnN......v6\r\nDw==\r\n=wSoi\r\n-----END PGP PUBLIC KEY BLOCK-----\r\n"
+                },
+                "publicKeyHex": {
+                    "description": "Unsupported on DID-Core but widely used",
+                    "type": "string"
+                },
+                "publicKeyJwk": {
+                    "$ref": "#/definitions/models.JWK"
+                },
+                "publicKeyPem": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Ed25519VerificationKey2018",
+                    "type": "string",
+                    "example": "Ed25519VerificationKey2018"
+                },
+                "usage": {
+                    "type": "string",
+                    "example": "signing,recovery"
+                }
+            }
+        },
+        "models.QRConfig": {
+            "type": "object",
+            "properties": {
+                "autorefresh": {
+                    "type": "boolean"
+                },
+                "autostart": {
+                    "type": "boolean"
+                },
+                "buttonText": {
+                    "description": "Just for buttons",
+                    "type": "string"
+                },
+                "callbackServer": {
+                    "description": "Just for v1",
+                    "type": "string"
+                },
+                "checkStatus": {
+                    "type": "string"
+                },
+                "createSession": {
+                    "type": "string"
+                },
+                "domains": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "dynamicLink": {
+                    "type": "boolean"
+                },
+                "errorCallback": {
+                    "type": "string"
+                },
+                "hideBrandTitle": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "permissions": {
+                    "$ref": "#/definitions/models.Permission"
+                },
+                "pollingFrequency": {
+                    "description": "Just for Polling",
+                    "type": "integer"
+                },
+                "qrModalDescription": {
+                    "type": "string"
+                },
+                "qrModalTitle": {
+                    "type": "string"
+                },
+                "qrRole": {
+                    "description": "Common for any QR",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.QRRole"
+                        }
+                    ]
+                },
+                "sessionTimeout": {
+                    "description": "Recommended on v1, mandatory on v2",
+                    "type": "integer"
+                },
+                "socketEndpoint": {
+                    "description": "Just for websockets",
+                    "type": "string"
+                },
+                "successCallback": {
+                    "type": "string"
+                },
+                "useButton": {
+                    "type": "boolean"
+                },
+                "useWs": {
+                    "type": "boolean"
+                },
+                "v2": {
+                    "description": "Just for v2",
+                    "type": "boolean"
+                },
+                "wsOnMessage": {
+                    "type": "string"
+                },
+                "wsOnOpen": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.QRRole": {
+            "type": "string",
+            "enum": [
+                "connect",
+                "certify"
+            ],
+            "x-enum-varnames": [
+                "ConnectRole",
+                "CertifyRole"
+            ]
+        },
+        "models.ResponseMessage": {
+            "type": "object",
+            "properties": {
+                "errorCode": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Some description message"
+                }
+            }
+        },
+        "models.Role": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                },
+                "role_id": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.RoleID"
+                        }
+                    ],
+                    "example": "iqZRLv6L071bwXcJaQdj0msi3pflDxaH"
+                },
+                "scopes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "[create_apikeys",
+                        " delete_apikeys",
+                        " modify_apikeys]"
+                    ]
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                }
+            }
+        },
+        "models.RoleID": {
+            "type": "string",
+            "enum": [
+                "SuperAdmin",
+                "ProviderAdmin",
+                "TenantAdmin",
+                "DIDOwner",
+                "SSIConfigManager",
+                "APIKeyManager",
+                "OrganizationOwner",
+                "ClientApplication",
+                "HolderWallet",
+                "Operator"
+            ],
+            "x-enum-varnames": [
+                "SuperAdmin",
+                "ProviderAdmin",
+                "TenantAdmin",
+                "DIDOwner",
+                "SSIConfigManager",
+                "APIKeyManager",
+                "OrganizationOwner",
+                "ClientApplication",
+                "HolderWallet",
+                "Operator"
+            ]
+        },
+        "models.SSIContext": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string"
+                },
+                "contexts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.SSIProof": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "$ref": "#/definitions/models.Proof"
+                },
+                "values": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Proof"
+                    }
+                }
+            }
+        },
+        "models.SetupRequest": {
+            "type": "object",
+            "properties": {
+                "connectLogin": {
+                    "$ref": "#/definitions/models.ConnectLoginConfig"
+                },
+                "provider": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "type": "string"
+                },
+                "vmConfigs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.VerificationMethodConfig"
+                    }
+                }
+            }
+        },
+        "models.Tenant": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                },
+                "dids": {
+                    "description": "Tenant DIDs are not the same as license DIDs. Tenants are the ones present on this database. License DIDs are all dids for the license. An OnPremise may not have any dids in SaaS Tenant.",
+                    "type": "string",
+                    "example": "[Admin, MyTenant]"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "gataca"
+                },
+                "isDefault": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "provider": {
+                    "type": "string",
+                    "example": "Gataca"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "api_keys": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "[\"iqZRLv6L071bwXcJaQdj0msi3pflDxaH\"",
+                        " \"MDFVdHhnSm82VDFtMkVtdm5BN0hhMGpC\"]"
+                    ]
+                },
+                "createdAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                },
+                "dids": {
+                    "type": "string",
+                    "example": "[did:gatc:4yu9274yq9gr8yw9423, did:gatc:V1U3V0x1b2hEVDJscGZXYXhaa0thMWRn]"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "admin@domain.com"
+                },
+                "orgId": {
+                    "type": "string",
+                    "example": "ADDWQEWQE-QWEQ-QWEE-EEQQ-12312312312"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "S3cuR3p4$sW0rD!"
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "+34 666 66 66 66"
+                },
+                "provider": {
+                    "type": "string",
+                    "example": "Gataca"
+                },
+                "role": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.RoleID"
+                        }
+                    ],
+                    "example": "ADMIN"
+                },
+                "sandbox_id": {
+                    "type": "string",
+                    "example": "A3FB058B-821D-4CFC-8D3F-67567BBA3E1C"
+                },
+                "ssi_operations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "[\"verifications-qr1\"",
+                        " \"issuance-qr2\"]"
+                    ]
+                },
+                "status": {
+                    "type": "string",
+                    "example": "ACTIVE"
+                },
+                "tenants": {
+                    "type": "string",
+                    "example": "[gataca]"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                }
+            }
+        },
+        "models.VerificationMethod": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "$ref": "#/definitions/models.PublicKey"
+                },
+                "reference": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.VerificationMethodConfig": {
+            "type": "object",
+            "properties": {
+                "did": {
+                    "type": "string",
+                    "example": "did:example:xxxxxxxxx#keys-1"
+                },
+                "didId": {
+                    "type": "string",
+                    "example": "did:example:xxxxxxxxx"
+                },
+                "privateKeyAlg": {
+                    "type": "string",
+                    "example": "RSAPrivate,ECDSAPrivate"
+                },
+                "privateKeyData": {
+                    "description": "Do not expose private keys on API!",
+                    "type": "string",
+                    "example": "/secrets/secret.pem"
+                },
+                "privateKeyType": {
+                    "type": "string",
+                    "example": "FILE,DB"
+                },
+                "publicKey": {
+                    "type": "string",
+                    "example": "3scaYXugqXQdG4QpVFYbzanT3bmxZQfXbg8B69T4ZZWJKrZnahZ48Hw3SKctAQU1bnMBNwt6Gb6Es4ALqfAiNRmn"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                }
+            }
+        },
+        "models.VerificationResult": {
+            "type": "object",
+            "properties": {
+                "checks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "['proof']"
+                    ]
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "[]"
+                    ]
+                },
+                "warnings": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "['Context not verified']"
+                    ]
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        },
+        "Token": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "tags": [
+        {
+            "description": "API to manage Access to the Administration Module",
+            "name": "Access"
+        },
+        {
+            "description": "API to manage Admin Users and Applications",
+            "name": "Users"
+        },
+        {
+            "description": "API to retrieve manage the public and private Issuers and Schemas Catalogs",
+            "name": "Catalog"
+        },
+        {
+            "description": "API to manage the component DIDs and configuration",
+            "name": "Setup"
+        },
+        {
+            "description": "All common APIs",
+            "name": "Core"
+        }
+    ]
+}

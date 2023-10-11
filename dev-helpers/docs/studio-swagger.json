@@ -1,0 +1,3492 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is the full API of the Gataca Studio",
+        "title": "Gataca Studio API",
+        "termsOfService": "https://www.gataca.io/terms-of-service-studio",
+        "contact": {
+            "name": "Gataca",
+            "url": "https://gataca.io",
+            "email": "help@gataca.io"
+        },
+        "version": "3.0.3"
+    },
+    "host": "studio.gataca.io",
+    "basePath": "/api/v1",
+    "paths": {
+        "/admin/v1/events": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Get a list of events filtering by tenant or author",
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get a list of events.",
+                "responses": {
+                    "200": {
+                        "description": "List of Events",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_gataca-io_gaas_models.Event"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/events/:id": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Get the data of a concrete event",
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get a concrete event",
+                "responses": {
+                    "200": {
+                        "description": "Event data",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.Event"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/gaas/did/:id": {
+            "delete": {
+                "description": "Delete did\nThis operation removes the did from the license and tenant too.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Gaas"
+                ],
+                "summary": "Delete did",
+                "responses": {
+                    "200": {
+                        "description": "Did deleted",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Did not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/gaas/signup": {
+            "post": {
+                "description": "Operation to register a new user in Studio\nThis operation must be called when the user does not exist in the platform",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Gaas"
+                ],
+                "summary": "Sign up",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "user",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User signed up",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Duplicate user",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/gaas/user-invitation": {
+            "post": {
+                "description": "Operation to invite a new user to an org on Studio\nThis operation must be called when the user does not exist in the platform",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Gaas"
+                ],
+                "summary": "Invite user",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "user",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User invited",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Duplicate user",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/groups/private": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create or update a credential group in his own private catalog.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Groups"
+                ],
+                "summary": "Upsert a credential group in his private catalog",
+                "parameters": [
+                    {
+                        "description": "Group",
+                        "name": "authority",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CredentialGroup"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Group correctly upserted.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid Group data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/groups/private/:id": {
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Delete a credential group from his own private catalog.",
+                "tags": [
+                    "Groups"
+                ],
+                "summary": "Delete a credential group entry from his private catalog",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id of the group",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Group correctly upserted.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "missing id param",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/issuers/private": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create or update an issuer in his own private catalog.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Issuers"
+                ],
+                "summary": "Upsert an issuer in his private catalog",
+                "parameters": [
+                    {
+                        "description": "Authority",
+                        "name": "authority",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Authority"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Issuer correctly upserted.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid issuer data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/issuers/private/:id": {
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Delete a issuer from his own private catalog.",
+                "tags": [
+                    "Issuers"
+                ],
+                "summary": "Delete a issuer from his private catalog",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Did of the entity",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Provider correctly upserted.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "missing id param",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/licenses": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will get all the licenses that you are allow to see.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Licenses"
+                ],
+                "summary": "Get all the licenses.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.License"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/licenses/:id/did/:did": {
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will remove the did from the license.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Licenses"
+                ],
+                "summary": "Remove a did from license.",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/licenses/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will get the license matching the id. Íf not id provided, it will get the one on the authorization token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Licenses"
+                ],
+                "summary": "Get the license by the id provided",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OrgId",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.License"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/licenses/{id}/tenant": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will get the license matching the id. Íf not id provided, it will get the one on the authorization token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Licenses"
+                ],
+                "summary": "Get the license by the id provided",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.License"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/licenses/{id}/usage": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Send a new telemetry value voluntarely to allow updating the computed value of the license",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Licenses"
+                ],
+                "summary": "Update the license usage",
+                "parameters": [
+                    {
+                        "description": "Telemetry",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Telemetry"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated license usage",
+                        "schema": {
+                            "$ref": "#/definitions/models.LicenseUsage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/limits": {
+            "get": {
+                "description": "By receiving a valid orgId as param, this endpoint will update or create the custom limits of the license associated to the orgId provided.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Limits"
+                ],
+                "summary": "Retrieve all the license limits of the platform",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.LicenseLimits"
+                            }
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "Token to consult the limits."
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "By receiving a definition of license limit, we will update, if code + type already present, or create the new limit.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Limits"
+                ],
+                "summary": "Create or update the custom base limits for license by Gataca.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.LicenseLimits"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/limits/{id}": {
+            "put": {
+                "description": "By calling this endpoint, you will get all the license limits configured, even if they are no longer active.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Limits"
+                ],
+                "summary": "Update or create the custom limits for a license",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OrgId",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.LicenseLimits"
+                            }
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "Token to upsert the limits."
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/onboards": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "The endpoint will return a valid signed Verifiable Authorization from a valid va_init provided through the authorization header token\nThe verifiable authorization its mainly used by the EBSI Onboarding Service to serve as login to recover an authorization token to perform write operations.\nThe endpoint will be consumed programatically, does not need further integration.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Onboards"
+                ],
+                "summary": "Get a Verifiable Authorization from a va_init.",
+                "responses": {
+                    "200": {
+                        "description": "Verifiable Authorization",
+                        "schema": {}
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/onboards/enroll": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "If the user logged its a SaaS user, the did will be created and enrolled on license automatically. If on premise, this endpoint will return a token in the response header for the UI to be displayed.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Onboards"
+                ],
+                "summary": "Create a request for the logged user to create a new did.",
+                "parameters": [
+                    {
+                        "description": "Organization",
+                        "name": "organization",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Organization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sandbox Invitation",
+                        "schema": {
+                            "$ref": "#/definitions/controller.SandboxInvitation"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid organization data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/onboards/enroll/:orgId": {
+            "put": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "The did will be linked to the license of the organization of the logged user. This endpoint will be consumed by the components automatically.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Onboards"
+                ],
+                "summary": "Enroll a did to a valid License.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OrgId",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Did to be enrolled",
+                        "name": "did",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Invalid organization data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/onboards/on-premise": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "The OnPremise user uses a different flow than the rest of the licenses.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Onboards"
+                ],
+                "summary": "Create a user with an organization and on premise license.",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "organization",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.enrollEntity"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Invalid data",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/onboards/provider": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "The provider user needs a different flow than the rest of the clients.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Onboards"
+                ],
+                "summary": "Create a provider with an organization and on premise license and did.",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "organization",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.enrollEntity"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Invalid data",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/onboards/sandbox": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "The invitation may be displayed on a QR inside the gaas and read by the wallet to request to join the onboard.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Onboards"
+                ],
+                "summary": "Create an invitation for a given wallet to join your sandbox",
+                "parameters": [
+                    {
+                        "description": "Organization",
+                        "name": "organization",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Organization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sandbox Invitation",
+                        "schema": {
+                            "$ref": "#/definitions/controller.SandboxInvitation"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid organization data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/organizations": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Get all organizations.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organizations"
+                ],
+                "summary": "Get all organizations",
+                "responses": {
+                    "201": {
+                        "description": "Organization correctly created.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Organization"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid organization data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create a organization. If the org exists already in the database, the service return error.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organizations"
+                ],
+                "summary": "Create organization",
+                "parameters": [
+                    {
+                        "description": "Organization",
+                        "name": "organization",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Organization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Organization correctly created.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "Updated access token for the user"
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "jwt"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid organization data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/organizations/:id": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Get a organization by his ID. If the org Id its invalid or does not exist, a error will be returned.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organizations"
+                ],
+                "summary": "Get organization by Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Organization data",
+                        "schema": {
+                            "$ref": "#/definitions/models.Organization"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid organization data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "NotFound organization.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Delete a organization by his ID. If the org Id its invalid or does not exist, a error will be returned.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organizations"
+                ],
+                "summary": "Delete organization by Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Invalid organization data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "NotFound organization.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/organizations/:oid": {
+            "put": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Update a organization. If the org does not exists already in the database, the service return error.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organizations"
+                ],
+                "summary": "Update organization",
+                "parameters": [
+                    {
+                        "description": "Organization",
+                        "name": "organization",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Organization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Invalid organization data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "NotFound organization.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/providers/private": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create or update a service provider in his own private catalog. ServiceProvider.Id its mandatory. ServiceProdiver.Endpoint should be present.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Providers"
+                ],
+                "summary": "Upsert a service provider in his private catalog",
+                "parameters": [
+                    {
+                        "description": "Provider",
+                        "name": "authority",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ServiceProvider"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Provider correctly upserted.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid provider data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/providers/private/:id": {
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Delete a service provider from his own private catalog.",
+                "tags": [
+                    "Providers"
+                ],
+                "summary": "Delete a service provider from his private catalog",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Did of the entity",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Provider correctly upserted.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "missing id param",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/subscriptions/:id/cancel": {
+            "put": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will cancel the current subscription at the current period end",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Cancel subscription at period end",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Subscription not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/subscriptions/:id/period": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will establish an active subscription and new period end optional.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Confirm the subscription for an orgId",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "422": {
+                        "description": "Stripe error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/subscriptions/products": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will establish a list of products with prices to be use by subscriptions.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Create the list of products for the provider",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/token": {
+            "post": {
+                "description": "Operation to authenticate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Token"
+                ],
+                "summary": "TokenPost",
+                "parameters": [
+                    {
+                        "description": "Token request",
+                        "name": "user",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/models.TokenRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User signed up",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Duplicate user",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/users/{{id}}/profile": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Retrieves the profile from the user invoking the request",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get the user profile",
+                "responses": {
+                    "200": {
+                        "description": "User profile",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "Request is malformed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "User not authenticated",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "User not existing in db",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Update the profile of the currently authenticated used with no data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update your profile",
+                "responses": {
+                    "200": {
+                        "description": "Updated User profile",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "Request is malformed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "User not authenticated",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "User not existing in db",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Update the profile of the currently authenticated used with no data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update your profile",
+                "parameters": [
+                    {
+                        "description": "New User Profile",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserProfile"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated User profile",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "Request is malformed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "User not authenticated",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "User not existing in db",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/events": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Get a list of events filtering by tenant or author",
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get a list of events.",
+                "responses": {
+                    "200": {
+                        "description": "list of events",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_gataca-io_gaas_models.Event"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/events/:id": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Get the data of a concrete event",
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get a concrete event",
+                "responses": {
+                    "200": {
+                        "description": "event data",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.Event"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will get all the products that you are allow to see.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get all the products.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Product"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/requests": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Get all the information associated to the requests generated in a concrete tenant",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Get all the requests associated to a tenant",
+                "responses": {
+                    "200": {
+                        "description": "request list",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Request"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "serverside error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create a request to perform an operation not allowed to perform automatically.\nRequests are analyzed by the administrators and then they are performed accordingly to the organization.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Create a request to perform an operation",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Request"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Request"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "serverside error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/requests/:id": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Get the information associated to a concrete request",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Get the information fo a concrete request",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Request ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "request data",
+                        "schema": {
+                            "$ref": "#/definitions/models.Request"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "serverside error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Delete a request",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Delete a request",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Request ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "request data",
+                        "schema": {
+                            "$ref": "#/definitions/models.Request"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "serverside error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/statistics": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will get all the statistics for the current user's organization.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Statistics"
+                ],
+                "summary": "Returns all the statistics for the current user.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization Id",
+                        "name": "org",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Begin date of the time window",
+                        "name": "begin",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "End date of the time window",
+                        "name": "end",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Statistics"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Metric Code.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "NotFound metrics for organization.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/statistics/:id": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will get all the historic with time of the requested metric code.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Statistics"
+                ],
+                "summary": "Returns the historic for the given metric.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Metric Code",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization Id",
+                        "name": "org",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Begin date of the time window",
+                        "name": "begin",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "End date of the time window",
+                        "name": "end",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.MetricStatistics"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Metric Code.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid authentication",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "NotFound metrics for organization.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/subscriptions": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will get info about the subscription of the current user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Get subscription info",
+                "responses": {
+                    "200": {
+                        "description": "Subscription data",
+                        "schema": {
+                            "$ref": "#/definitions/models.SubscriptionInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/subscriptions/card": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will cancel the current subscription at the current period end",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Cancel subscription at period end",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "422": {
+                        "description": "Stripe error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will set the payment method for the client",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Set the payment method.",
+                "responses": {
+                    "200": {
+                        "description": "Card",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/subscriptions/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "By calling this endpoint, you will change your price for a higher interval or another product on your subscription.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Update the subscription with the new price.",
+                "parameters": [
+                    {
+                        "description": "License",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.updateLicenseData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SubscriptionInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_gaas_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "controller.SandboxInvitation": {
+            "type": "object",
+            "properties": {
+                "invitation": {
+                    "type": "string"
+                },
+                "sandboxId": {
+                    "type": "string"
+                }
+            }
+        },
+        "controller.enrollEntity": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "orgInfo": {
+                    "$ref": "#/definitions/github_com_gataca-io_gaas_models.OrganizationInfo"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "providerId": {
+                    "type": "string"
+                }
+            }
+        },
+        "controller.updateLicenseData": {
+            "type": "object",
+            "properties": {
+                "priceId": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_gataca-io_gaas_models.Event": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "elementId": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "tenant": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/models.EventType"
+                }
+            }
+        },
+        "github_com_gataca-io_gaas_models.OrganizationInfo": {
+            "type": "object",
+            "properties": {
+                "EORI": {
+                    "type": "string"
+                },
+                "LEI": {
+                    "type": "string"
+                },
+                "SEED": {
+                    "type": "string"
+                },
+                "SIC": {
+                    "type": "string"
+                },
+                "areaGroup": {
+                    "type": "string"
+                },
+                "discoveryURL": {
+                    "type": "string"
+                },
+                "display": {
+                    "$ref": "#/definitions/models.PreferredDisplay"
+                },
+                "domainName": {
+                    "type": "string",
+                    "example": "education"
+                },
+                "identifierBag": {
+                    "type": "string"
+                },
+                "legalPersonalIdentifier": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ServiceEndpoint"
+                    }
+                }
+            }
+        },
+        "github_com_gataca-io_gaas_models.ResponseMessage": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Some description message"
+                }
+            }
+        },
+        "models.Authority": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "ledger": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.Background": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.BillingInfo": {
+            "type": "object",
+            "properties": {
+                "LegalAddress": {
+                    "type": "string"
+                },
+                "LegalName": {
+                    "type": "string"
+                },
+                "legalAddress": {
+                    "$ref": "#/definitions/models.LegalAddress"
+                },
+                "taxReference": {
+                    "type": "string"
+                },
+                "vatRegistration": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CatalogChanges": {
+            "type": "object",
+            "properties": {
+                "catalogType": {
+                    "$ref": "#/definitions/models.CatalogKey"
+                },
+                "elementId": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CatalogKey": {
+            "type": "string",
+            "enum": [
+                "authority",
+                "credentialType",
+                "credentialGroup",
+                "serviceProvider"
+            ],
+            "x-enum-comments": {
+                "CredentialGroup_Key": "#nosec G101",
+                "CredentialType_Key": "#nosec G101"
+            },
+            "x-enum-varnames": [
+                "Authority_Key",
+                "CredentialType_Key",
+                "CredentialGroup_Key",
+                "ServiceProvider_Key"
+            ]
+        },
+        "models.CredentialGroup": {
+            "type": "object",
+            "properties": {
+                "hidden": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "issuerList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Issuer"
+                    }
+                },
+                "mainClaim": {
+                    "type": "string"
+                },
+                "mainCredential": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.CustomLimits": {
+            "type": "object",
+            "properties": {
+                "limits": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.LicenseLimits"
+                    }
+                },
+                "validFrom": {
+                    "$ref": "#/definitions/models.TimeWithFormat"
+                },
+                "validUntil": {
+                    "$ref": "#/definitions/models.TimeWithFormat"
+                }
+            }
+        },
+        "models.EventType": {
+            "type": "string",
+            "enum": [
+                "OrganizationCreation",
+                "OrganizationModification",
+                "OrganizationDeletion",
+                "TenantCreation",
+                "TenantModification",
+                "TenantDeletion",
+                "DidCreation",
+                "DidModification",
+                "DidDeletion",
+                "RequestCatalogModification",
+                "ApproveCatalogModification",
+                "RejectCatalogModification",
+                "RequestExternalProviderSubscriptionModification",
+                "ApproveExternalProviderSubscriptionModification",
+                "RejectExternalProviderSubscriptionModification",
+                "RequestSubscriptionStripeTroubleshooting",
+                "CancelRequest"
+            ],
+            "x-enum-varnames": [
+                "EventOrganizationCreation",
+                "EventOrganizationModification",
+                "EventOrganizationDeletion",
+                "EventTenantCreation",
+                "EventTenantModification",
+                "EventTenantDeletion",
+                "EventDidCreation",
+                "EventDidModification",
+                "EventDidDeletion",
+                "EventRequestCatalogModification",
+                "EventApproveCatalogModification",
+                "EventRejectCatalogModification",
+                "EventRequestExternalProviderSubscriptionModification",
+                "EventApproveExternalProviderSubscriptionModification",
+                "EventRejectExternalProviderSubscriptionModification",
+                "EventRequestSubscriptionStripeTroubleshooting",
+                "EventCancelRequest"
+            ]
+        },
+        "models.Issuer": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "publicRequest": {}
+            }
+        },
+        "models.LegalAddress": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "string"
+                },
+                "locality": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "string"
+                },
+                "postalCode": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "street": {
+                    "type": "string"
+                },
+                "suite": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.License": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "customLimits": {
+                    "$ref": "#/definitions/models.CustomLimits"
+                },
+                "dids": {
+                    "description": "ScheduledType LicenseType `json:\"scheduledType,omitempty\"`\nTenant DIDs are not the same as license DIDs. Tenants are the ones present on this database. License DIDs are all dids for the license. An OnPremise may not have any dids in SaaS Tenant but the license must have all its dids.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "licenseType": {
+                    "description": "Deprecated, use subscription model instead. Left here to be migrated",
+                    "type": "string"
+                },
+                "orgId": {
+                    "type": "string"
+                },
+                "paymentOutside": {
+                    "type": "boolean"
+                },
+                "providerId": {
+                    "type": "string"
+                },
+                "sbxId": {
+                    "type": "string"
+                },
+                "tenants": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "[gataca]"
+                    ]
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "usage": {
+                    "$ref": "#/definitions/models.LicenseUsage"
+                }
+            }
+        },
+        "models.LicenseLimits": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "provider": {
+                    "type": "string"
+                },
+                "timeRange": {
+                    "$ref": "#/definitions/models.TimeRange"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Assuming only int limits for the moment.",
+                    "type": "integer"
+                }
+            }
+        },
+        "models.LicenseUsage": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/models.Usage"
+            }
+        },
+        "models.MetricStatistic": {
+            "type": "object",
+            "properties": {
+                "time": {
+                    "$ref": "#/definitions/models.TimeWithFormat"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.MetricStatistics": {
+            "type": "object",
+            "properties": {
+                "begin": {
+                    "$ref": "#/definitions/models.TimeWithFormat"
+                },
+                "end": {
+                    "$ref": "#/definitions/models.TimeWithFormat"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "values": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.MetricStatistic"
+                    }
+                }
+            }
+        },
+        "models.Organization": {
+            "type": "object",
+            "properties": {
+                "billingInfo": {
+                    "$ref": "#/definitions/models.BillingInfo"
+                },
+                "createdAt": {
+                    "description": "PaymentMethod    *PaymentMethod    `gorm:\"embedded;embeddedPrefix:payment_\" json:\"paymentMethod,omitempty\"`",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "orgInfo": {
+                    "$ref": "#/definitions/github_com_gataca-io_gaas_models.OrganizationInfo"
+                },
+                "providerId": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.PaymentMethod": {
+            "type": "object",
+            "properties": {
+                "ccvCheck": {
+                    "type": "string"
+                },
+                "creditCardNumber": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "expiration": {
+                    "type": "string",
+                    "example": "01/2050"
+                },
+                "holderName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.PreferredDisplay": {
+            "type": "object",
+            "properties": {
+                "background": {
+                    "$ref": "#/definitions/models.Background"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "preferredName": {
+                    "type": "string"
+                },
+                "style": {
+                    "$ref": "#/definitions/models.Style"
+                }
+            }
+        },
+        "models.Price": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "recurringInterval": {
+                    "$ref": "#/definitions/models.PriceRecurringInterval"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.PriceRecurringInterval": {
+            "type": "string",
+            "enum": [
+                "day",
+                "week",
+                "month",
+                "year"
+            ],
+            "x-enum-varnames": [
+                "PriceRecurringIntervalDay",
+                "PriceRecurringIntervalWeek",
+                "PriceRecurringIntervalMonth",
+                "PriceRecurringIntervalYear"
+            ]
+        },
+        "models.Product": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "licenseType": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "prices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Price"
+                    }
+                },
+                "provider": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Request": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "data": {
+                    "$ref": "#/definitions/models.RequestData"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "processedAt": {
+                    "type": "string"
+                },
+                "processor": {
+                    "type": "string"
+                },
+                "provider": {
+                    "type": "string"
+                },
+                "requester": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/models.RequestStatus"
+                },
+                "tenant": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/models.RequestType"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.RequestData": {
+            "type": "object",
+            "properties": {
+                "currentLicense": {
+                    "type": "string"
+                },
+                "licenseId": {
+                    "type": "string"
+                },
+                "modifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.CatalogChanges"
+                    }
+                },
+                "orgId": {
+                    "type": "string"
+                },
+                "priceId": {
+                    "type": "string"
+                },
+                "problemDescription": {
+                    "type": "string"
+                },
+                "requestedLicense": {
+                    "type": "string"
+                },
+                "sbxId": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.RequestStatus": {
+            "type": "string",
+            "enum": [
+                "PENDING",
+                "APPLIED",
+                "REJECTED"
+            ],
+            "x-enum-varnames": [
+                "RequestStatusPending",
+                "RequestStatusApplied",
+                "RequestStatusRejected"
+            ]
+        },
+        "models.RequestType": {
+            "type": "string",
+            "enum": [
+                "SubscriptionStripeTroubleshooting",
+                "CatalogModification",
+                "SubscriptionExternalProviderManagement",
+                "DeleteRequest"
+            ],
+            "x-enum-varnames": [
+                "RequestTypeSubscriptionStripeTroubleshooting",
+                "RequestTypeCatalogModification",
+                "RequestTypeSubscriptionExternalProviderManagement",
+                "RequestTypeDelete"
+            ]
+        },
+        "models.ServiceEndpoint": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "serviceEndpoint": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/models.ServiceType"
+                }
+            }
+        },
+        "models.ServiceProvider": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "advertised": {
+                    "type": "boolean"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "ledger": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.ServiceType": {
+            "type": "string",
+            "enum": [
+                "Verifier",
+                "Issuer"
+            ],
+            "x-enum-varnames": [
+                "ServiceTypeVerifier",
+                "ServiceTypeIssuer"
+            ]
+        },
+        "models.Statistics": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/models.MetricStatistics"
+            }
+        },
+        "models.Style": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "fontFamily": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SubscriptionInfo": {
+            "type": "object",
+            "properties": {
+                "cancelAtPeriodEnd": {
+                    "type": "boolean"
+                },
+                "currentLicenseType": {
+                    "type": "string"
+                },
+                "currentPeriodEnd": {
+                    "type": "string"
+                },
+                "currentPeriodStart": {
+                    "type": "string"
+                },
+                "currentPriceId": {
+                    "type": "string"
+                },
+                "currentProductId": {
+                    "type": "string"
+                },
+                "orgId": {
+                    "type": "string"
+                },
+                "paymentMethod": {
+                    "$ref": "#/definitions/models.PaymentMethod"
+                },
+                "paymentOutsideStripe": {
+                    "type": "boolean"
+                },
+                "provider": {
+                    "type": "string"
+                },
+                "subscriptionSchedule": {
+                    "$ref": "#/definitions/models.SubscriptionSchedule"
+                },
+                "subscriptionStatus": {
+                    "$ref": "#/definitions/models.SubscriptionStatus"
+                }
+            }
+        },
+        "models.SubscriptionSchedule": {
+            "type": "object",
+            "properties": {
+                "scheduledLicenseType": {
+                    "type": "string"
+                },
+                "scheduledPriceId": {
+                    "type": "string"
+                },
+                "scheduledProductId": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SubscriptionStatus": {
+            "type": "string",
+            "enum": [
+                "active",
+                "canceled",
+                "incomplete",
+                "incomplete_expired",
+                "past_due",
+                "trialing",
+                "unpaid"
+            ],
+            "x-enum-comments": {
+                "SubscriptionStatusIncompleteExpired": "This is a terminal state for Stripe."
+            },
+            "x-enum-varnames": [
+                "SubscriptionStatusActive",
+                "SubscriptionStatusCanceled",
+                "SubscriptionStatusIncomplete",
+                "SubscriptionStatusIncompleteExpired",
+                "SubscriptionStatusPastDue",
+                "SubscriptionStatusTrialing",
+                "SubscriptionStatusUnpaid"
+            ]
+        },
+        "models.Telemetry": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "integer"
+            }
+        },
+        "models.TimeRange": {
+            "type": "string",
+            "enum": [
+                "Hourly",
+                "DAILY",
+                "WEEKLY",
+                "MONTHLY",
+                "QUARTERLY",
+                "YEARLY"
+            ],
+            "x-enum-comments": {
+                "Quarterly": "Quarters begin first day of Jan, Apr, Jul \u0026 Oct"
+            },
+            "x-enum-varnames": [
+                "Hourly",
+                "Daily",
+                "Weekly",
+                "Monthly",
+                "Quarterly",
+                "Yearly"
+            ]
+        },
+        "models.TimeWithFormat": {
+            "type": "object",
+            "properties": {
+                "tenants": {
+                    "description": "embedded time value",
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                }
+            }
+        },
+        "models.TokenRequest": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "scope": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Usage": {
+            "type": "object",
+            "properties": {
+                "current": {
+                    "type": "integer"
+                },
+                "max": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "api_keys": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "[\"iqZRLv6L071bwXcJaQdj0msi3pflDxaH\"",
+                        " \"MDFVdHhnSm82VDFtMkVtdm5BN0hhMGpC\"]"
+                    ]
+                },
+                "createdAt": {
+                    "description": "SandboxId  string         `gorm:\"\" json:\"sandbox_id\" example:\"A3FB058B-821D-4CFC-8D3F-67567BBA3E1C\" description:\"Sandbox identifier\"`\nOrgId      string         `gorm:\"\" json:\"orgId\" example:\"ADDWQEWQE-QWEQ-QWEE-EEQQ-12312312312\" description:\"Org identifier used on Gaas\"`",
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                },
+                "dids": {
+                    "type": "string",
+                    "example": "[did:gatc:4yu9274yq9gr8yw9423, did:gatc:V1U3V0x1b2hEVDJscGZXYXhaa0thMWRn]"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "admin@domain.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "S3cuR3p4$sW0rD!"
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "+34 666 66 66 66"
+                },
+                "provider": {
+                    "type": "string",
+                    "example": "Gataca"
+                },
+                "role": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/permissions.RoleID"
+                        }
+                    ],
+                    "example": "ADMIN"
+                },
+                "ssi_operations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "[\"verifications-qr1\"",
+                        " \"issuance-qr2\"]"
+                    ]
+                },
+                "status": {
+                    "type": "string",
+                    "example": "ACTIVE"
+                },
+                "tenants": {
+                    "type": "string",
+                    "example": "[gataca]"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                }
+            }
+        },
+        "models.UserProfile": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/models.User"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "profilePic": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "permissions.RoleID": {
+            "type": "string",
+            "enum": [
+                "SuperAdmin",
+                "ProviderAdmin",
+                "TenantAdmin",
+                "DIDOwner",
+                "SSIConfigManager",
+                "APIKeyManager",
+                "OrganizationOwner",
+                "ClientApplication",
+                "HolderWallet",
+                "Operator"
+            ],
+            "x-enum-varnames": [
+                "SuperAdmin",
+                "ProviderAdmin",
+                "TenantAdmin",
+                "DIDOwner",
+                "SSIConfigManager",
+                "APIKeyManager",
+                "OrganizationOwner",
+                "ClientApplication",
+                "HolderWallet",
+                "Operator"
+            ]
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        },
+        "Token": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "tags": [
+        {
+            "description": "API to manage the events",
+            "name": "Events"
+        },
+        {
+            "description": "API to manage the Gaas",
+            "name": "Gaas"
+        },
+        {
+            "description": "API to manage the groups",
+            "name": "Groups"
+        },
+        {
+            "description": "API to manage the issuers",
+            "name": "Issuers"
+        },
+        {
+            "description": "API to manage the licence",
+            "name": "Licenses"
+        },
+        {
+            "description": "API to manage the licence limits",
+            "name": "Limits"
+        },
+        {
+            "description": "API to manage the onboards",
+            "name": "Onboards"
+        },
+        {
+            "description": "API to manage the organization configuration",
+            "name": "Organizations"
+        },
+        {
+            "description": "API to manage the products",
+            "name": "Products"
+        },
+        {
+            "description": "API to manage the providers",
+            "name": "Providers"
+        },
+        {
+            "description": "API to manage the statistics",
+            "name": "Statistics"
+        },
+        {
+            "description": "API to manage the subscriptions",
+            "name": "Subscriptions"
+        },
+        {
+            "description": "API to manage the requests",
+            "name": "Requests"
+        },
+        {
+            "description": "API to manage tokens. NOT AVAILABLE YET",
+            "name": "Token"
+        },
+        {
+            "description": "API to manage the users",
+            "name": "Users"
+        }
+    ]
+}

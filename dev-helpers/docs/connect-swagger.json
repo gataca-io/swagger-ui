@@ -1,0 +1,2941 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is the full API of the Gataca Connect Verifier component for DeID\nThis API contains all the methods exposed, both for configuration and integration",
+        "title": "Gataca Connect API",
+        "contact": {
+            "name": "Gataca",
+            "url": "https://gataca.io",
+            "email": "it@gataca.io"
+        },
+        "version": "4.0.2"
+    },
+    "host": "https://connect.gataca.io",
+    "paths": {
+        "/admin/v1/config": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Declare a new Tenant to request a new type of Presentation Requests with all the associated requirements and configuration.\nThis API is not necessary for integration. Tenants can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Configs"
+                ],
+                "summary": "Create a new Tenant Configuration",
+                "parameters": [
+                    {
+                        "description": "Tenant Configuration",
+                        "name": "prConfig",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/models.PEXConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Tenant configuration created.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid new Tenant configuration.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to manage that tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Invalid new Tenant configuration.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v1/config/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Each Tenant represents a unique specific configuration for a Presentation Request. You can get one specific tenant or all your tenants.\nThis API is not necessary for integration. Tenants can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Configs"
+                ],
+                "summary": "Get Tenant Configurations",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant Id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tenant configurations requested.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.PEXConfig"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid requested configurations.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to manage that tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid requested configurations.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Remove an existing tenant configuration and make it further unusable.\nThis API is not necessary for integration. Tenants can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Configs"
+                ],
+                "summary": "Delete a Tenant Configuration",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tenant Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Tenant configuration deleted.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid selected tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to manage that tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid selected tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Modify the Presentation Request configuration of an existing tenant.\nThis API is not necessary for integration. Tenants can be managed through Gataca Admin Portal.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Configs"
+                ],
+                "summary": "Update an existing Tenant Configuration",
+                "parameters": [
+                    {
+                        "description": "Tenant Configuration",
+                        "name": "prConfig",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/models.PEXConfig"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Tenant Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tenant configuration updated.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid new Tenant configuration.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to manage that tenant.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid new Tenant configuration.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Invalid new Tenant configuration.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v2/data_agreements": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Returns all the consents you are allowed to see in your tenant or DID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Agreements"
+                ],
+                "summary": "Retrieve all datta agreements \u0026 consents. This endpoints allows pagination.",
+                "responses": {
+                    "200": {
+                        "description": "Consents and data agreements accepted, stored and signed by the verifier",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DataAgreement"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to query a consent or data agreement.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v2/data_agreements/purpose_templates": {
+            "get": {
+                "description": "Retrieve all of Purpose templates stored by tenant.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Agreements"
+                ],
+                "summary": "Retrieve all Purpose template.",
+                "responses": {
+                    "200": {
+                        "description": "Collection of Purpose templates",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/models.DataAgreement"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v2/data_agreements/purpose_templates/{id}": {
+            "get": {
+                "description": "Retrieve a purpose template by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Agreements"
+                ],
+                "summary": "Retrieve an existing purpose template",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Purpose template Id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Purpose with that Id",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Purpose"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v2/data_agreements/purpose_templates{id}": {
+            "delete": {
+                "description": "Use case not implemented yet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Agreements"
+                ],
+                "summary": "Update a collection of purpose templates",
+                "parameters": [
+                    {
+                        "description": "Purpose templates collection",
+                        "name": "id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Purpose"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated purpose template",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DataAgreement"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v2/data_agreements/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Returns all the consents you are allowed to see in your tenant or DID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Agreements"
+                ],
+                "summary": "Retrieve info about a specific data agreement",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Consent or data agreement Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Consents and data agreements accepted",
+                        "schema": {
+                            "$ref": "#/definitions/models.DataAgreement"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to query a consent or data agreement.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Returns all the consents you are allowed to see in your tenant or DID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Agreements"
+                ],
+                "summary": "Retrieve all datta agreements \u0026 consents",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Purpose template Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Consents and data agreements accepted, stored and signed by the verifier",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DataAgreement"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to query a consent or data agreement.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/v2/data_agreements/{id}/data": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Retrieve the last version of the data associated with a specific data agreement or consent",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Agreements"
+                ],
+                "summary": "Get the data allowed on a data agreement",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Consent or data agreement Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Most recent data from the required consent",
+                        "schema": {}
+                    },
+                    "403": {
+                        "description": "Not Authorized to query a consent or data agreement.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Data is not present in the server any more.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/consents": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Consents of use of verifiable credentials are needed to validate sessions containing those VCs. The Consent must be published using the same token allowing to patch the session.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Consents"
+                ],
+                "summary": "Create a new consent document",
+                "parameters": [
+                    {
+                        "description": "Consent signed by the end user and the Pairwise DID",
+                        "name": "consent",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.VerifiableConsent"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Consent accepted, stored and signed by the verifier",
+                        "schema": {
+                            "$ref": "#/definitions/models.VerifiableConsent"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to create a consent.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sessions": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "To request user's data in the form of Verifiable Credentials, a specific session must be created.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Create a new unique Connect Session to perform a Presentation Exchange.",
+                "responses": {
+                    "201": {
+                        "description": "Session created",
+                        "schema": {
+                            "$ref": "#/definitions/models.PresentationRequest"
+                        },
+                        "headers": {
+                            "Set_Cookie": {
+                                "type": "string",
+                                "description": "Store the token as a cookie."
+                            },
+                            "Token": {
+                                "type": "string",
+                                "description": "Token to consult the session status."
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to create sessions.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sessions/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "To retrieve the user's data from a Session, the verification status must be queried.\nThere are three possibilities:\n1. The user has not shared his information yet\n2. The information was shared and valid (conforming to the requested)\n3. The information was shared but invalid",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Get the verification status and data of a credential sharing session",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Session data validated successfully",
+                        "schema": {
+                            "$ref": "#/definitions/models.Session"
+                        }
+                    },
+                    "204": {
+                        "description": "Empty response: Session data pending to be filled",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Given Param is not valid",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Sessions may be deleted after usage to avoid long term persistence of the shared data.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Delete a session",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Session Deleted Ok",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to delete the session.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "The user should fill the session data with a Presentation Response matching the requirements of the corresponding Presentation Request. He must use the corresponding token retrieved on the GetSessionToken operation.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Fill the session data with VCs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "AppAuthentication Signed Token",
+                        "name": "AppAuthentication",
+                        "in": "header"
+                    },
+                    {
+                        "description": "Presentation Response matching the requirements of the Presentation Request",
+                        "name": "presentationResponse",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.PresentationResponse"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Session"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to fill the session.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sessions/{id}/token": {
+            "get": {
+                "description": "By receiving a Session Id, a Wallet can retrieve the full presentation request by querying this endpoint. A User token will be attached to allow updating the session with the requested data.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Retrieve a presentation request and a user token from an Id.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.PresentationRequest"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "Token to consult the session status."
+                            },
+                            "Token_type": {
+                                "type": "string",
+                                "description": "JWT"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/authentication_requests/{id}": {
+            "get": {
+                "description": "While using oidc, you can refer a request with its URI",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication Requests"
+                ],
+                "summary": "Get OIDC Request",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth request Id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tenant configurations requested.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.JWTEBSIClaims"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/authentication_requests/{id}/claims": {
+            "get": {
+                "description": "While using oidc, you can refer to the claims of a presentation just by its id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication Requests"
+                ],
+                "summary": "Get OIDC Claims",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth request Id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Authentication request claims",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.EBSIClaims"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/authentication_responses": {
+            "post": {
+                "description": "A Holder may submit a verifiable presentation in response to a given authentication_request in order to finish the exchange.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication Responses"
+                ],
+                "summary": "Submit a Verifiable Presentation under the siop standard",
+                "parameters": [
+                    {
+                        "description": "Verifiable Presentation token for DID SIOP",
+                        "name": "submission",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.sIOPSubmission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Verification result.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.VerificationResult"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request body malformed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to submit a presentation exchanges.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "406": {
+                        "description": "Presentation submission not acceptable",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be modified",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/data_agreements": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create a new data agreement to record by the Verifier, in order to hold the service",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Agreements"
+                ],
+                "summary": "Create Data Agreement",
+                "parameters": [
+                    {
+                        "description": "Data Agreement of this service",
+                        "name": "dataAgreement",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.DataAgreement"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Updated Data Agreement",
+                        "schema": {
+                            "$ref": "#/definitions/models.DataAgreement"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to create data agreements.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/data_agreements/{id}": {
+            "delete": {
+                "description": "Use case not implemented yet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Agreements"
+                ],
+                "summary": "Delete a current data agreement",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Data agreement Id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Revocated Data Agreement",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DataAgreement"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Use cases not implemented yet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Agreements"
+                ],
+                "summary": "Modify an existing data agreement",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Data agreement Id",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "Data Agreement of this service",
+                        "name": "dataAgreement",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.DataAgreement"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated data agreement",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DataAgreement"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/data_agreements/{id}/{version}": {
+            "get": {
+                "description": "Retrieve the last version of a Data Agreement with all the corresponding events.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data Agreements"
+                ],
+                "summary": "Retrieve an existing Data Agreement",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Data agreement Id",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Optional: Version of the data agreement to recover. Default: last",
+                        "name": "version",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data Agreement with that Id",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DataAgreement"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/presentations": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "Create a new presentation exchange process by providing it's presentation definition. Relying parties with due authentication can perform this operation.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Presentations"
+                ],
+                "summary": "Create Presentation Exchange",
+                "parameters": [
+                    {
+                        "description": "Presentation definition of this exchange",
+                        "name": "presentationDefinition",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.PresentationDefinition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Reference to the exchange process",
+                        "schema": {
+                            "$ref": "#/definitions/controller.PECreationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to create exchanges.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/presentations/{id}": {
+            "get": {
+                "description": "The relying party may at any time query the status of a given exchange at any time to see if the data has been validated.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Presentations"
+                ],
+                "summary": "Check the status of a presentation exchange",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Presentation exchange Id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Valid verification result.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.VerificationResult"
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "Pending verification result. No submission in the exchange yet.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.VerificationResult"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to retrieve the presentation exchange",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "406": {
+                        "description": "Presentation submission in valid",
+                        "schema": {
+                            "$ref": "#/definitions/models.VerificationResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/presentations/{id}/data_agreement": {
+            "get": {
+                "description": "When expanding a presentation, the verifier may just offer the URI to the data agreement template linked to that service",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Presentations"
+                ],
+                "summary": "Get the data agreement template of a Presentation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Presentation exchange Id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data agreement requested.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DataAgreement"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/presentations/{id}/definition": {
+            "get": {
+                "description": "Upon scanning a QR, a Holder may retrieve the presentation definition associated to the process identifier in order to perform an exchange.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Presentations"
+                ],
+                "summary": "Get a Presentation Definition",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Presentation exchange Id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Presentation Definition",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.PresentationDefinition"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/presentations/{id}/submission": {
+            "post": {
+                "description": "A Holder may submit a verifiable presentation in response to a given definition in order to fulfill the exchange.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Presentations"
+                ],
+                "summary": "Submit a Verifiable Presentation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Presentation exchange Id",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "Verifiable Presentation",
+                        "name": "submission",
+                        "in": "body",
+                        "required": true,
+                        "schema": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Verification result.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.VerificationResult"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request body malformed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to submit a presentation exchanges.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "406": {
+                        "description": "Presentation submission not acceptable",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "409": {
+                        "description": "Process Id cannot be modified",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/sessions": {
+            "post": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "This updates the previously existing endpoint by switching the data model and protocol to DIF PE + DIF Data Agreements.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Create a new presentation definition and data agreement to perform a new exchange.",
+                "responses": {
+                    "201": {
+                        "description": "Session created",
+                        "schema": {
+                            "$ref": "#/definitions/controller.CreateSessionv2Response"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to create sessions.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/sessions/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "The relying party may at any time query the status of a given exchange at any time to see if the data has been validated.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Check the status of a presentation exchange",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Presentation exchange Id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Presentation Exchange Data.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.PExchange"
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "Pending verification result. No submission in the exchange yet.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.VerificationResult"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Process Id cannot be retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to retrieve the presentation exchange",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Inexistent process Id",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "406": {
+                        "description": "Presentation submission in valid",
+                        "schema": {
+                            "$ref": "#/definitions/models.VerificationResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "description": "This allows to clean all data of a presentation exchange after it has been successfully performed.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Clean data of presentation exchange after validation",
+                "responses": {
+                    "200": {
+                        "description": "Session Deleted Ok",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Not Authorized to delete the session.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Serverside error processing the request.",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_gataca-io_connect-api_models.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "controller.CreateSessionv2Response": {
+            "type": "object",
+            "properties": {
+                "authentication_request": {
+                    "type": "string",
+                    "example": "openid://scope=openid\u0026response_type=id_token\u0026response_mode=post\u0026client_id=https%3A%2F%2Fapi.test.intebsi.xyz%2Fconformance%2Fv1%2Fverifier-mock%2Fauthentication-responses\u0026redirect_uri=https%3A%2F%2Fapi.test.intebsi.xyz%2Fconformance%2Fv1%2Fverifier-mock%2Fauthentication-responses\u0026claims=%5Bobject+Object%5D"
+                },
+                "presentation_definition": {
+                    "$ref": "#/definitions/models.PresentationDefinition"
+                }
+            }
+        },
+        "controller.PECreationResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "32f54163-7166-48f1-93d8-ff217bdb0653"
+                },
+                "uri": {
+                    "type": "string",
+                    "example": "https://vui.gataca.io/api/presentations/v2/32f54163-7166-48f1-93d8-ff217bdb0653/definition"
+                }
+            }
+        },
+        "controller.sIOPSubmission": {
+            "type": "object"
+        },
+        "github_com_gataca-io_connect-api_models.ResponseMessage": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Some description message"
+                }
+            }
+        },
+        "models.ConsentClaims": {
+            "type": "object",
+            "properties": {
+                "credentialId": {
+                    "type": "string",
+                    "example": "cred:gatc:xxxxxxxxxxxxxx"
+                },
+                "location": {
+                    "type": "string",
+                    "example": "https://hub.gataca.io/api/v1/data/VzhKSzZ1R2xaQ0ExLy9wU1Yram9SN2hI"
+                },
+                "purpose": {
+                    "type": "string",
+                    "example": "Authentication"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "emailCredential"
+                }
+            }
+        },
+        "models.Constraints": {
+            "type": "object",
+            "properties": {
+                "fields": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Field"
+                    }
+                },
+                "limit_disclosure": {
+                    "type": "boolean"
+                },
+                "subject_is_holder": {
+                    "$ref": "#/definitions/models.Preference"
+                },
+                "subject_is_issuer": {
+                    "$ref": "#/definitions/models.Preference"
+                }
+            }
+        },
+        "models.CredentialRequest": {
+            "type": "object",
+            "properties": {
+                "mandatory": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "purpose": {
+                    "type": "string",
+                    "example": "Authentication"
+                },
+                "trustLevel": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "type": {
+                    "type": "string",
+                    "example": "emailCredential"
+                }
+            }
+        },
+        "models.DataAgreement": {
+            "type": "object",
+            "properties": {
+                "@context": {
+                    "$ref": "#/definitions/models.SSIContext"
+                },
+                "data_holder": {
+                    "type": "string"
+                },
+                "data_receiver": {
+                    "$ref": "#/definitions/models.DataReceiver"
+                },
+                "data_subject": {
+                    "type": "string"
+                },
+                "dpia": {
+                    "$ref": "#/definitions/models.Dpia"
+                },
+                "event": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Event"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "personal_data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.PersonalDatum"
+                    }
+                },
+                "purposes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Purpose"
+                    }
+                },
+                "template_id": {
+                    "type": "string"
+                },
+                "template_version": {
+                    "type": "string"
+                },
+                "termination_timestamp": {
+                    "type": "integer"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.DataAgreementRef": {
+            "type": "object",
+            "properties": {
+                "dataAgreement": {
+                    "$ref": "#/definitions/models.DataAgreement"
+                },
+                "ref": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.DataPolicy": {
+            "type": "object",
+            "properties": {
+                "data_retention_period": {
+                    "type": "integer"
+                },
+                "geographic_restriction": {
+                    "type": "string"
+                },
+                "industry_scope": {
+                    "type": "string"
+                },
+                "jurisdictions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "policy_URL": {
+                    "type": "string"
+                },
+                "storage_location": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.DataReceiver": {
+            "type": "object",
+            "properties": {
+                "consent_duration": {
+                    "type": "integer"
+                },
+                "form_of_consent": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Dpia": {
+            "type": "object",
+            "properties": {
+                "dpia_date": {
+                    "type": "string"
+                },
+                "dpia_summary_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.EBSIClaims": {
+            "type": "object",
+            "properties": {
+                "encryption_key": {
+                    "$ref": "#/definitions/models.JWK"
+                },
+                "id_token": {
+                    "$ref": "#/definitions/models.IdToken"
+                },
+                "verified_claims": {
+                    "type": "string"
+                },
+                "vp_token": {
+                    "$ref": "#/definitions/models.VpToken"
+                }
+            }
+        },
+        "models.Event": {
+            "type": "object",
+            "properties": {
+                "principle_did": {
+                    "type": "string"
+                },
+                "proof": {
+                    "$ref": "#/definitions/models.SSIProof"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "integer"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Field": {
+            "type": "object",
+            "required": [
+                "path"
+            ],
+            "properties": {
+                "filter": {
+                    "$ref": "#/definitions/models.Filter"
+                },
+                "path": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "predicate": {
+                    "$ref": "#/definitions/models.Preference"
+                },
+                "purpose": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Filter": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "const": {},
+                "enum": {
+                    "type": "array",
+                    "items": {}
+                },
+                "exclusiveMaximum": {},
+                "exclusiveMinimum": {},
+                "format": {
+                    "type": "string"
+                },
+                "maxLength": {
+                    "type": "integer"
+                },
+                "maximum": {},
+                "minLength": {
+                    "type": "integer"
+                },
+                "minimum": {},
+                "not": {
+                    "$ref": "#/definitions/models.Filter"
+                },
+                "pattern": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Format": {
+            "type": "object",
+            "properties": {
+                "jwt": {
+                    "$ref": "#/definitions/models.JWTType"
+                },
+                "jwt_vc": {
+                    "$ref": "#/definitions/models.JWTType"
+                },
+                "jwt_vp": {
+                    "$ref": "#/definitions/models.JWTType"
+                },
+                "ldp": {
+                    "$ref": "#/definitions/models.LDPType"
+                },
+                "ldp_vc": {
+                    "$ref": "#/definitions/models.LDPType"
+                },
+                "ldp_vp": {
+                    "$ref": "#/definitions/models.LDPType"
+                }
+            }
+        },
+        "models.IdToken": {
+            "type": "object",
+            "properties": {
+                "acr": {},
+                "verifiable_presentations": {
+                    "type": "object",
+                    "properties": {
+                        "presentation_definition": {
+                            "$ref": "#/definitions/models.PresentationDefinition"
+                        }
+                    }
+                }
+            }
+        },
+        "models.InputDescriptor": {
+            "type": "object",
+            "required": [
+                "id",
+                "schema"
+            ],
+            "properties": {
+                "constraints": {
+                    "$ref": "#/definitions/models.Constraints"
+                },
+                "group": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "purpose": {
+                    "type": "string"
+                },
+                "schema": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/models.Schema"
+                    }
+                }
+            }
+        },
+        "models.JWK": {
+            "type": "object",
+            "properties": {
+                "alg": {
+                    "type": "string",
+                    "example": "jwa values: https://www.rfc-editor.org/rfc/rfc7518.html#page-6"
+                },
+                "crv": {
+                    "type": "string"
+                },
+                "d": {
+                    "type": "string"
+                },
+                "dp": {
+                    "type": "string"
+                },
+                "dq": {
+                    "type": "string"
+                },
+                "e": {
+                    "type": "string"
+                },
+                "k": {
+                    "type": "string"
+                },
+                "kid": {
+                    "type": "string"
+                },
+                "kty": {
+                    "type": "string"
+                },
+                "n": {
+                    "type": "string"
+                },
+                "p": {
+                    "type": "string"
+                },
+                "q": {
+                    "type": "string"
+                },
+                "qi": {
+                    "type": "string"
+                },
+                "use": {
+                    "type": "string",
+                    "example": "sig,enc"
+                },
+                "x": {
+                    "type": "string"
+                },
+                "y": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.JWTEBSIClaims": {
+            "type": "object",
+            "properties": {
+                "aud": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "claims": {
+                    "$ref": "#/definitions/models.EBSIClaims"
+                },
+                "client_id": {
+                    "type": "string"
+                },
+                "exp": {
+                    "type": "integer"
+                },
+                "iat": {
+                    "type": "integer"
+                },
+                "iss": {
+                    "type": "string"
+                },
+                "jti": {
+                    "type": "string"
+                },
+                "nbf": {
+                    "type": "integer"
+                },
+                "nonce": {
+                    "type": "string"
+                },
+                "redirect_uri": {
+                    "type": "string"
+                },
+                "registration": {
+                    "type": "string"
+                },
+                "response_mode": {
+                    "type": "string"
+                },
+                "response_type": {
+                    "type": "string"
+                },
+                "scope": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "sub": {
+                    "type": "string"
+                },
+                "sub_did_verification_method_uri": {
+                    "type": "string"
+                },
+                "sub_jwk": {
+                    "$ref": "#/definitions/models.JWK"
+                },
+                "vc": {},
+                "vp": {}
+            }
+        },
+        "models.JWTType": {
+            "type": "object",
+            "required": [
+                "alg"
+            ],
+            "properties": {
+                "alg": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.LDPType": {
+            "type": "object",
+            "required": [
+                "proof_type"
+            ],
+            "properties": {
+                "proof_type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.MechanismId": {
+            "type": "integer",
+            "enum": [
+                1,
+                2,
+                3
+            ],
+            "x-enum-varnames": [
+                "AuthNFactor",
+                "AppAuth",
+                "Credential"
+            ]
+        },
+        "models.PEXConfig": {
+            "type": "object",
+            "properties": {
+                "advancedDefinition": {
+                    "$ref": "#/definitions/models.PresentationDefinition"
+                },
+                "callback": {
+                    "type": "string"
+                },
+                "credentials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.CredentialRequest"
+                    }
+                },
+                "dataAgreementTemplate": {
+                    "$ref": "#/definitions/models.DataAgreement"
+                },
+                "domain": {
+                    "type": "string",
+                    "example": "https://host.domain.com"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "my-tenant"
+                },
+                "qrId": {
+                    "type": "string"
+                },
+                "security": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.SecMechanism"
+                    }
+                },
+                "service": {
+                    "type": "string"
+                },
+                "sessionTTL": {
+                    "type": "integer"
+                },
+                "vmethodId": {
+                    "type": "string",
+                    "example": "did:example:xxxxxxxxxxxx"
+                }
+            }
+        },
+        "models.PExchange": {
+            "type": "object",
+            "properties": {
+                "authRequest": {
+                    "$ref": "#/definitions/models.JWTEBSIClaims"
+                },
+                "callback": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/pq.NullTime"
+                },
+                "expiredAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "description": "Session identifier",
+                    "type": "string"
+                },
+                "presentationDefinition": {
+                    "$ref": "#/definitions/models.PresentationDefinition"
+                },
+                "presentationSubmission": {},
+                "presentationSubmissionFormat": {
+                    "$ref": "#/definitions/models.VPFormat"
+                },
+                "requestedAt": {
+                    "type": "string"
+                },
+                "sourceWallet": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "validations": {
+                    "$ref": "#/definitions/models.VerificationResult"
+                }
+            }
+        },
+        "models.PersonalDatum": {
+            "type": "object",
+            "properties": {
+                "attribute_id": {
+                    "type": "string"
+                },
+                "attribute_location": {
+                    "type": "string"
+                },
+                "attribute_name": {
+                    "type": "string"
+                },
+                "attribute_sensitive": {
+                    "type": "boolean"
+                },
+                "purposes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.Preference": {
+            "type": "string",
+            "enum": [
+                "required",
+                "preferred"
+            ],
+            "x-enum-varnames": [
+                "Required",
+                "Preferred"
+            ]
+        },
+        "models.PresentationDefinition": {
+            "type": "object",
+            "required": [
+                "id",
+                "input_descriptors"
+            ],
+            "properties": {
+                "dataAgreement": {
+                    "$ref": "#/definitions/models.DataAgreementRef"
+                },
+                "format": {
+                    "$ref": "#/definitions/models.Format"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "input_descriptors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.InputDescriptor"
+                    }
+                },
+                "locale": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "proof": {
+                    "$ref": "#/definitions/models.SSIProof"
+                },
+                "purpose": {
+                    "type": "string"
+                },
+                "submission_requirements": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.SubmissionRequirement"
+                    }
+                }
+            }
+        },
+        "models.PresentationRequest": {
+            "type": "object",
+            "properties": {
+                "additionalData": {},
+                "auth": {
+                    "description": "String to represent a concrete client",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.SecMechanism"
+                    }
+                },
+                "callback": {
+                    "description": "For retro-comp",
+                    "type": "string",
+                    "example": "https://connect.gataca.io:9090"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "pres:gatc:AzUcl2VkM1hSO7tmYjuisGpsjCbeiDrG"
+                },
+                "nonce": {
+                    "type": "string",
+                    "example": "AzUcl2VkM1hSO7tmYjuisGpsjCbeiDrG"
+                },
+                "proof": {
+                    "$ref": "#/definitions/models.SSIProof"
+                },
+                "redirect_uri": {
+                    "type": "string"
+                },
+                "requested": {
+                    "description": "Session identifier",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.CredentialRequest"
+                    }
+                }
+            }
+        },
+        "models.PresentationResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "pres:gatc:AzUcl2VkM1hSO7tmYjuisGpsjCbeiDrG"
+                },
+                "securityMechanisms": {
+                    "description": "Assuming always ldp_vp because this is v1 Gatc and will be deprecated"
+                },
+                "verifiablePresentation": {}
+            }
+        },
+        "models.Proof": {
+            "type": "object",
+            "properties": {
+                "@context": {
+                    "$ref": "#/definitions/models.SSIContext"
+                },
+                "cades": {
+                    "type": "string",
+                    "example": "308204c906092a864886f70d010702...266ad9fee3375d8095"
+                },
+                "challenge": {
+                    "type": "string",
+                    "example": "TyYfomXjwPaQoSRzCZk7CxFYR8DwAigt"
+                },
+                "created": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                },
+                "creator": {
+                    "type": "string",
+                    "example": "did:gatc:yyyyyyyyyyyy#keys-1"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "nonce": {
+                    "type": "string",
+                    "example": "TyYfomXjwPaQoSRzCZk7CxFYR8DwAigt"
+                },
+                "proofPurpose": {
+                    "type": "string",
+                    "example": "Authentication"
+                },
+                "proofValue": {
+                    "type": "string",
+                    "example": "bQ5AimlvOv6p5wa9pVlmjWgPMr7j9rKw_yjUL6yHlQNwnKk7HL8VQzIT0Xx"
+                },
+                "signatureValue": {
+                    "type": "string",
+                    "example": "bQ5AimlvOv6p5wa9pVlmjWgPMr7j9rKw_yjUL6yHlQNwnKk7HL8VQzIT0Xx"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "Ed25519Signature2018"
+                },
+                "verificationMethod": {
+                    "type": "string",
+                    "example": "did:gatc:yyyyyyyyyyyy#keys-1"
+                }
+            }
+        },
+        "models.Purpose": {
+            "type": "object",
+            "properties": {
+                "data_policy": {
+                    "$ref": "#/definitions/models.DataPolicy"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "legal_basis": {
+                    "type": "string"
+                },
+                "method_of_use": {
+                    "type": "string"
+                },
+                "purpose_category": {
+                    "type": "string"
+                },
+                "purpose_description": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SSIContext": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string"
+                },
+                "contexts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "models.SSIProof": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "$ref": "#/definitions/models.Proof"
+                },
+                "values": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Proof"
+                    }
+                }
+            }
+        },
+        "models.Schema": {
+            "type": "object",
+            "properties": {
+                "required": {
+                    "type": "boolean"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SecMechanism": {
+            "type": "object",
+            "properties": {
+                "accepted": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "type": {
+                    "$ref": "#/definitions/models.MechanismId"
+                }
+            }
+        },
+        "models.Selection": {
+            "type": "string",
+            "enum": [
+                "all",
+                "pick"
+            ],
+            "x-enum-varnames": [
+                "All",
+                "Pick"
+            ]
+        },
+        "models.Session": {
+            "type": "object",
+            "properties": {
+                "callback": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                },
+                "data": {},
+                "dataFormat": {
+                    "$ref": "#/definitions/models.VPFormat"
+                },
+                "expiredAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:08.999Z"
+                },
+                "id": {
+                    "description": "Session identifier",
+                    "type": "string",
+                    "example": "U7wDbXbwsGjbNr3nIDpZuwC94PiDzXLL"
+                },
+                "nonce": {
+                    "description": "Session nonce",
+                    "type": "string",
+                    "example": "j0mLD5K3x7yXjyAv1ZhWFzi22NIf5iZn"
+                },
+                "presentationRequest": {
+                    "$ref": "#/definitions/models.PresentationRequest"
+                },
+                "sourceWallet": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:16.396Z"
+                },
+                "valid": {
+                    "type": "boolean"
+                },
+                "validations": {
+                    "$ref": "#/definitions/models.VerificationResult"
+                }
+            }
+        },
+        "models.SubmissionRequirement": {
+            "type": "object",
+            "required": [
+                "rule"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "from": {
+                    "type": "string"
+                },
+                "from_nested": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.SubmissionRequirement"
+                    }
+                },
+                "max": {
+                    "type": "integer"
+                },
+                "min": {
+                    "description": "Can be zero",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "purpose": {
+                    "type": "string"
+                },
+                "rule": {
+                    "$ref": "#/definitions/models.Selection"
+                }
+            }
+        },
+        "models.VPFormat": {
+            "type": "string",
+            "enum": [
+                "ldp_vp",
+                "jwt_vp"
+            ],
+            "x-enum-varnames": [
+                "VPLDP",
+                "VPJWT"
+            ]
+        },
+        "models.VerifiableConsent": {
+            "type": "object",
+            "properties": {
+                "approverSubject": {
+                    "type": "string",
+                    "example": "did:example:xxxxxxxxxxxx"
+                },
+                "authorizedEntity": {
+                    "type": "string",
+                    "example": "did:example:yyyyyyyyyyyy"
+                },
+                "claims": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ConsentClaims"
+                    }
+                },
+                "createdAt": {
+                    "type": "string",
+                    "example": "2019-10-01T12:12:05.999Z"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "did:example:zzzzzzzz"
+                },
+                "proofChain": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Proof"
+                    }
+                }
+            }
+        },
+        "models.VerificationResult": {
+            "type": "object",
+            "properties": {
+                "checks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "['proof']"
+                    ]
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "[]"
+                    ]
+                },
+                "warnings": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "['Context not verified']"
+                    ]
+                }
+            }
+        },
+        "models.VpToken": {
+            "type": "object",
+            "properties": {
+                "presentation_definition": {
+                    "$ref": "#/definitions/models.PresentationDefinition"
+                }
+            }
+        },
+        "pq.NullTime": {
+            "type": "object",
+            "properties": {
+                "time": {
+                    "type": "string"
+                },
+                "valid": {
+                    "description": "Valid is true if Time is not NULL",
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        },
+        "Token": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "tags": [
+        {
+            "description": "API to manage Authentication Requests",
+            "name": "Authentication Requests"
+        },
+        {
+            "description": "API to manage Authentication Responses",
+            "name": "Authentication Responses"
+        },
+        {
+            "description": "API to manage Connect Tenants",
+            "name": "Configs"
+        },
+        {
+            "description": "API to manage Verifiable Consents",
+            "name": "Consents"
+        },
+        {
+            "description": "API to manage Data Agreements",
+            "name": "Data Agreements"
+        },
+        {
+            "description": "API to manage Presentations",
+            "name": "Presentations"
+        },
+        {
+            "description": "API to manage presentation exchange Sessions",
+            "name": "Sessions"
+        }
+    ]
+}

@@ -1,3 +1,27 @@
+# Gataca Swagger-UI
+Files to be modified
+- dev-helper-initializer.js (For DEV purposes)
+- Swagger-initializer.js (For production purposes)
+
+## Launch of DEV
+```
+yarn
+yarn dev
+```
+
+## Deployment
+```
+yarn build
+```
+Copy all the files included into `/dist` into S3 (api.gataca.io)
+
+Execute CloudFront invalidation `/*`
+
+## Update specification
+
+For update just the component specification, it's not necessary necessary to upload the new file version to the `/docs` folder. Then it's necessary to reset the CloudFront cache (Execute invalidation).
+
+
 # <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" width="300">
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
