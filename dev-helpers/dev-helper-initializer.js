@@ -9,7 +9,8 @@ window.onload = function() {
       {url: "./docs/studio-swagger.json", name: "Gataca Studio"},
       {url: "./docs/nucleus-swagger.json", name: "Gataca Nucleus"},
       {url: "./docs/connect-swagger.json", name: "Gataca Connect"},
-      {url: "/docs/certify-swagger.json", name: "Gataca Certify"},
+      {url: "./docs/certify-swagger.json", name: "Gataca Certify"},
+      {url: "./docs/vouch-openapi.yaml", name: "Gataca Vouc"h},
     ],
     dom_id: "#swagger-ui",
     presets: [
